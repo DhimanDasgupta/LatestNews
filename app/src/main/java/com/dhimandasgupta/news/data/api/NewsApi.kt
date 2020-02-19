@@ -17,13 +17,15 @@ interface NewsApi {
     ): NetworkResponse
 }
 
-class RetrofitGenerator() {
+class NewsApiGenerator {
     companion object {
-        fun getRetrofit(): Retrofit {
-            return Retrofit.Builder().
+        fun getNewsApi(): NewsApi {
+            val retrofit = Retrofit.Builder().
                 baseUrl(BASE_NEWS_API_DOMAIN).
                 addConverterFactory(GsonConverterFactory.create()
             ).build()
+
+            return retrofit.create(NewsApi::class.java)
         }
     }
 }
