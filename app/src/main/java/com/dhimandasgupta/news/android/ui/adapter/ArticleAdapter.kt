@@ -1,10 +1,15 @@
 package com.dhimandasgupta.news.android.ui.adapter
 
+import android.content.Intent
+import android.net.Uri
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.widget.AppCompatImageView
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.recyclerview.widget.RecyclerView
+import coil.api.load
+import coil.transform.RoundedCornersTransformation
 import com.dhimandasgupta.news.R
 import com.dhimandasgupta.news.presentation.ArticleUIModel
 
@@ -53,10 +58,39 @@ class ArticleAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 }
 
 class ArticleViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    private val imageView: AppCompatImageView =
+        itemView.findViewById(R.id.adapter_article_image_view)
     private val textView: AppCompatTextView = itemView.findViewById(R.id.adapter_article_text_view)
 
     fun bindArticle(articleUIModel: ArticleUIModel) {
-        textView.text = articleUIModel.description
+        if (articleUIModel.urlToImage.isNotBlank()) {
+            imageView.load(articleUIModel.urlToImage) {
+                crossfade(true)
+                placeholder(R.drawable.ic_launcher_background)
+                transformations(
+                    RoundedCornersTransformation(
+                        topLeft = 16f,
+                        topRight = 16f,
+                        bottomRight = 16f,
+                        bottomLeft = 16f
+                    )
+                )
+            }
+        }
+        textView.text = articleUIModel.title
+
+        itemView.setOnClickListener {
+            launchURL(articleUIModel.url)
+        }
+    }
+
+    private fun launchURL(url: String) {
+        kotlin.runCatching {
+            itemView.context.startActivity(Intent(Intent.ACTION_VIEW).also {
+                it.data = Uri.parse(url)
+            })
+        }.onSuccess { }
+            .onFailure { }
     }
 }
 

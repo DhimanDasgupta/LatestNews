@@ -5,7 +5,8 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.GridLayoutManager
+import com.dhimandasgupta.news.R
 import com.dhimandasgupta.news.android.ui.adapter.ArticleAdapter
 import com.dhimandasgupta.news.databinding.ActivityMainBinding
 import com.dhimandasgupta.news.di.Generators
@@ -43,7 +44,10 @@ class MainActivity : AppCompatActivity() {
         // Setting Recycler View
         articleAdapter = ArticleAdapter()
         binding.recyclerView.layoutManager =
-            LinearLayoutManager(binding.recyclerView.context, LinearLayoutManager.VERTICAL, false)
+            GridLayoutManager(
+                binding.recyclerView.context,
+                resources.getInteger(R.integer.number_of_columns)
+            )
         binding.recyclerView.adapter = articleAdapter
     }
 
