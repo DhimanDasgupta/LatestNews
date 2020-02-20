@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">News</string>
+    <string name="empty">No Articles yet</string>
 </resources>

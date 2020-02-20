@@ -8,14 +8,11 @@ import com.dhimandasgupta.news.data.api.NewsApiGenerator
 import com.dhimandasgupta.news.domain.NewsRepository
 import com.dhimandasgupta.news.domain.NewsUseCase
 import com.dhimandasgupta.news.presentation.NewsViewModelFactory
-import kotlinx.coroutines.Dispatchers
 
 object Generators {
     fun provideNewsViewModelFactory(): NewsViewModelFactory {
         return NewsViewModelFactory(
-            provideNewsUseCase(),
-            provideIODispatcher(),
-            provideUIDispatcher()
+            provideNewsUseCase()
         )
     }
 
@@ -34,8 +31,4 @@ object Generators {
     private fun provideNewsApi(): NewsApi {
         return NewsApiGenerator.getNewsApi()
     }
-
-    private fun provideIODispatcher() = Dispatchers.IO
-
-    private fun provideUIDispatcher() = Dispatchers.Main
 }
